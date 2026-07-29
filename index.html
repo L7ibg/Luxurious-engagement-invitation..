@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#090909" />
+<title>عقد قران عبدالقادر ونور — دعوة</title>
+<meta name="description" content="يسرنا دعوتكم لحضور حفل عقد قران عبدالقادر ونور في مزرعة الياسمين الأبيض — المسيب، الجيلاوية." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="عقد قران عبدالقادر ونور" />
+<meta property="og:description" content="بحضوركم تكتمل سعادتنا — دعوة لحضور حفل عقد القران." />
+<meta property="og:image" content="images/hero.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml" />
+<link rel="preload" as="image" href="images/hero.jpg" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <svg class="loader__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="loader__arc" cx="60" cy="60" r="52"/></svg>
+    <div class="loader__mono">ن &nbsp;&amp;&nbsp; ع</div>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+  </div>
+</div>
+
+<canvas id="particles" class="particles" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<div class="player glass" id="player">
+  <button class="player__btn" id="playBtn" aria-label="تشغيل الموسيقى">
+    <svg class="ico ico-play" viewBox="0 0 24 24"><path d="M8 5.5 19 12 8 18.5z"/></svg>
+    <svg class="ico ico-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>
+  </button>
+  <button class="player__btn" id="muteBtn" aria-label="كتم الصوت">
+    <svg class="ico ico-vol" viewBox="0 0 24 24"><path d="M5 9.5h3l4-3.5v12l-4-3.5H5z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>
+    <svg class="ico ico-mute" viewBox="0 0 24 24"><path d="M5 9.5h3l4-3.5v12l-4-3.5H5z"/><path d="m16 9.5 4 5M20 9.5l-4 5"/></svg>
+  </button>
+  <input id="vol" class="player__vol" type="range" min="0" max="100" value="45" aria-label="مستوى الصوت" />
+</div>
+<audio id="audio" src="assets/music.mp3" loop preload="none"></audio>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__media" data-parallax="0.18">
+      <img src="images/hero.jpg" alt="حرير عاجي وأزهار الياسمين" width="1600" height="1008" fetchpriority="high" />
+      <div class="hero__veil"></div>
+    </div>
+    <div class="hero__content">
+      <p class="eyebrow reveal">بسم الله الرحمن الرحيم</p>
+      <p class="kicker reveal" data-delay="1">دعوة لحضور حفل</p>
+      <h1 class="display reveal-lines">عقد قران</h1>
+      <div class="names reveal" data-delay="3">
+        <span class="names__n">عبدالقادر</span>
+        <span class="names__amp" aria-hidden="true">&amp;</span>
+        <span class="names__n">نور</span>
+      </div>
+      <img class="ornament reveal" data-delay="4" src="icons/ornament.png" alt="" width="1024" height="512" />
+      <p class="hero__date reveal" data-delay="5"><span id="heroDate"></span> · <span id="heroTime"></span></p>
+      <a href="#details" class="btn btn--gold magnetic reveal" data-delay="6"><span>تفاصيل الدعوة</span></a>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- INVITATION -->
+  <section class="section section--invite" id="invite">
+    <div class="wrap narrow center">
+      <p class="label reveal">الدعوة</p>
+      <p class="lead reveal-lines" id="inviteMsg"></p>
+      <div class="rule reveal" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="section section--count" id="countdown">
+    <div class="wrap center">
+      <p class="label reveal">العدّ التنازلي</p>
+      <h2 class="h2 reveal">بقي على لحظتنا</h2>
+      <div class="count" id="count">
+        <div class="count__card glass reveal" data-delay="1"><b id="cd-d">00</b><span>يوم</span></div>
+        <div class="count__card glass reveal" data-delay="2"><b id="cd-h">00</b><span>ساعة</span></div>
+        <div class="count__card glass reveal" data-delay="3"><b id="cd-m">00</b><span>دقيقة</span></div>
+        <div class="count__card glass reveal" data-delay="4"><b id="cd-s">00</b><span>ثانية</span></div>
+      </div>
+      <p class="count__done" id="countDone" hidden>بدأت فرحتنا — أهلاً بكم</p>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="section section--quote">
+    <div class="wrap narrow center">
+      <svg class="ico quote-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6C6.2 7.4 5 9.6 5 12.4V18h5.6v-5.6H7.8c0-2 .6-3.4 2.2-4.4zm9 0c-2.8 1.4-4 3.6-4 6.4V18h5.6v-5.6h-2.8c0-2 .6-3.4 2.2-4.4z"/></svg>
+      <blockquote class="quote reveal-lines">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</blockquote>
+      <cite class="reveal">سورة الروم — ٢١</cite>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="section section--details" id="details">
+    <div class="wrap">
+      <p class="label center reveal">التفاصيل</p>
+      <h2 class="h2 center reveal">موعدنا ومكاننا</h2>
+      <div class="cards">
+        <article class="card glass reveal" data-delay="1">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>
+          <h3>التاريخ</h3><p id="dTitleDate"></p><small id="dHijriHint">يوم الاحتفال</small>
+        </article>
+        <article class="card glass reveal" data-delay="2">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+          <h3>الوقت</h3><p id="dTitleTime"></p><small>يرجى الحضور قبل الموعد بقليل</small>
+        </article>
+        <article class="card glass reveal" data-delay="3">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <h3>المكان</h3><p id="dTitleVenue"></p><small>يسعدنا استقبالكم</small>
+        </article>
+      </div>
+      <div class="center actions">
+        <a id="mapsBtn" class="btn btn--ghost magnetic" href="#" target="_blank" rel="noopener"><span>فتح الموقع على الخريطة</span></a>
+        <a id="waBtn" class="btn btn--ghost magnetic" href="#" target="_blank" rel="noopener"><span> </span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section section--gallery" id="gallery">
+    <div class="wrap">
+      <p class="label center reveal">لمحات</p>
+      <h2 class="h2 center reveal">من أجواء اليوم</h2>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="section section--rsvp" id="rsvp">
+    <div class="wrap narrow">
+      <p class="label center reveal">تأكيد الحضور</p>
+      <h2 class="h2 center reveal">شرفونا بتأكيد حضوركم</h2>
+      <form class="form glass reveal" id="rsvpForm" novalidate>
+        <div class="field">
+          <input id="rName" name="name" type="text" required placeholder=" " autocomplete="name" />
+          <label for="rName">الاسم الكريم</label><em class="err" data-for="rName"></em>
+        </div>
+        <div class="field">
+          <input id="rPhone" name="phone" type="tel" required placeholder=" " inputmode="tel" autocomplete="tel" />
+          <label for="rPhone">رقم الهاتف</label><em class="err" data-for="rPhone"></em>
+        </div>
+        <div class="field">
+          <select id="rStatus" name="status" required>
+            <option value="yes">سأحضر بإذن الله</option>
+            <option value="maybe">غير متأكد</option>
+            <option value="no">أعتذر عن الحضور</option>
+          </select>
+          <label class="static" for="rStatus">حالة الحضور</label>
+        </div>
+        <div class="field">
+          <input id="rGuests" name="guests" type="number" min="1" max="20" value="1" required placeholder=" " />
+          <label for="rGuests">عدد المرافقين</label><em class="err" data-for="rGuests"></em>
+        </div>
+        <div class="field field--full">
+          <textarea id="rNote" name="note" rows="3" placeholder=" "></textarea>
+          <label for="rNote">كلمة جميلة (اختياري)</label>
+        </div>
+        <button class="btn btn--gold magnetic form__submit" type="submit"><span>إرسال التأكيد</span></button>
+      </form>
+      <div class="success" id="success" hidden>
+        <svg class="success__check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l8 8 15-16"/></svg>
+        <p>وصلَنا تأكيدكم — شكراً لكم من القلب</p>
+        <a class="btn btn--ghost magnetic" id="waSend" href="#" target="_blank" rel="noopener"><span>إرسال نسخة عبر واتساب</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- THANKS -->
+  <section class="section section--thanks">
+    <div class="wrap narrow center">
+      <img class="ornament reveal" src="icons/ornament.png" alt="" width="1024" height="512" />
+      <h2 class="display sm reveal-lines">شكراً لكم</h2>
+      <p class="lead reveal" data-delay="2">حضوركم هدية، ودعواتكم أجمل ما نتمناه في يومنا.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap center">
+    <p class="footer__names">عبدالقادر &nbsp;·&nbsp; نور</p>
+    <p class="footer__text" id="footerText"></p>
+    <p class="footer__meta"><span id="footerDate"></span></p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="معرض الصور" hidden>
+  <button class="lb__close" id="lbClose" aria-label="إغلاق"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb__nav lb__prev" id="lbPrev" aria-label="السابق"><svg class="ico" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg></button>
+  <img id="lbImg" alt="" />
+  <button class="lb__nav lb__next" id="lbNext" aria-label="التالي"><svg class="ico" viewBox="0 0 24 24"><path d="M10 6l6 6-6 6"/></svg></button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
